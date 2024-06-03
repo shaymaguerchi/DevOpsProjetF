@@ -1,33 +1,34 @@
-version : "3.8"
+version: "3.8"
 
 services: 
   mysqldb:
-    image : mysql:5.7
-    restart : unless-stopped
+    image: mysql:5.7
+    restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD= my-secret-pw
+      - MYSQL_ROOT_PASSWORD=my-secret-pw
       - MYSQL_DATABASE=achat_db
-    ports : 
+    ports: 
       - 3306:3306
     volumes: 
       - db:/var/lib/mysql
+
   app-achat:
     depends_on:
       - mysqldb
-    image : chaimaguerchi/achat:1.0.0
-    restart : on-failure
-    ports : 
+    image: chaimaguerchi/achat:1.0.0
+    restart: on-failure
+    ports: 
       - 8089:8089
     environment:
       SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url" : "jdbc:mysql://mysqldb:3306/achat_db?createDatabaseIfNotExist=true",
-        "spring.datasource.username" : "root",
-        "spring.datasource.password" : my-secret-pw, 
-        "spring.jpa.proprties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
-        "spring.jpa.hibernate.ddl-auto" : "update"
+        "spring.datasource.url": "jdbc:mysql://mysqldb:3306/achat_db?createDatabaseIfNotExist=true",
+        "spring.datasource.username": "root",
+        "spring.datasource.password": "my-secret-pw",
+        "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.MySQL5InnoDBDialect",
+        "spring.jpa.hibernate.ddl-auto": "update"
       }'
     stdin_open: true
     tty: true
 
 volumes:
-  db :
+  db:
