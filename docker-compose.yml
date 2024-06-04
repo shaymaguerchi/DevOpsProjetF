@@ -1,6 +1,6 @@
 services:
 
-  c:
+  mysql:
     image: mysql
     restart: unless-stopped
     networks:
@@ -29,8 +29,6 @@ services:
       - external
     ports:
       - "8089:8089"
-    depends_on:
-      - mysql
     restart: unless-stopped
 
 networks:
